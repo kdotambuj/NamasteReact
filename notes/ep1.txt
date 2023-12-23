@@ -1,0 +1,8 @@
+Root.render will replace all the content inside the root tag div 
+ReactElements are just Javascript Objects at the end of day
+React can be used even in a small portion of our app
+We can pass array of Elements(nested tags) in the third argument of React.createElement
+
+
+CDN = content delivery network, group of servers that provide content basically
+

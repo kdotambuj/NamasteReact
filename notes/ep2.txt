@@ -1,0 +1,19 @@
+Package.json is configuration for npm 
+Two dependencies - Web and normal 
+
+We are using Parcel, a bundler 
+
+^ caret
+~ tilde 
+
+What is package.json and package.lock.json
+Both are configuration for npm, lock.json shows the exact version of dependencies 
+
+
+
+Transitive dependencies
+Parcel can depend on other things that's why there are so many node modules
+
+npx means execute that package
+
+script type should be module 
