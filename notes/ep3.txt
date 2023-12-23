@@ -1,0 +1,17 @@
+We use scipts to run our code according to our choosed command, this is an industry standard whenever we want to run a 
+project we can always look up to package.json and find the scipts and run our project
+
+JSX - This is not HTML in JavaScript
+JSX is just like HTML syntax
+
+JSX code is TRANSPILED by BABEL before going to Js engine
+Transpiling - Convert code to one language to another
+
+REACT COMPONENTS -> Always start with capital
+1. Class components 
+2. Functional components
+    A function which returns React Element
+
+
+Component Composition
+  Component inside the component 
