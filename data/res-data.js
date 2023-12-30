@@ -1,5 +1,5 @@
-[
-    {
+
+let res_data =  [  {
       "info": {
         "id": "254105",
         "name": "McDonald's",
@@ -1685,3 +1685,5 @@
       }
     }
   ]
+
+export default res_data;

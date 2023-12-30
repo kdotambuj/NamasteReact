@@ -1,0 +1,9 @@
+// React Hooks
+
+
+
+
+
+Reconsilation Algorith (React Fiber)
+
+Virtual DOM
