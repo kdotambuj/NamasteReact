@@ -1,6 +1,7 @@
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import res_data from '../../data/res-data'
+import ShimmerBody from './Shimmer'
 
 
 
@@ -48,13 +49,58 @@ const Rescard = (props) =>{
  const Body = () =>{
   
 
-    const [rData,setRData] = useState(res_data);
+    const [rData,setRData] = useState([]);
+    const [filterList,setFilterList] = useState([]);
+    const [searchRes,setSearchRes] = useState('');
+
+
+    useEffect(()=>{fetchData()},[]);
+
+    const fetchData = async ()=>{
+        const data = await fetch('https://www.swiggy.com/dapi/restaurants/list/v5?lat=27.2380555&lng=78.0077208&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING');
+        
+        const json = await data.json();
+        console.log(json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants)
+ 
+        setRData(json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+        setFilterList(json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+    }
     
+    if (rData.length===0){
+        return ( 
+            <ShimmerBody />
+        )
+    }
+
+    if (filterList.length===0){
+        return (
+            <div className='flex w-full h-[500px] justify-center items-center  '>
+                <h2>No Restaurants...</h2>
+            </div>
+        )
+    }
+
+    const handleSearch = (e)=>{
+        setSearchRes(e.target.value)
+    }
+
+
 
     return (
         <div className="flex flex-col items-center ">
-            <div className="m-7 ">
-                <button className=' inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-white transition duration-200 bg-gray-900 rounded-lg hover:bg-gray-800 focus:shadow-outline focus:outline-none ' 
+            <div className="m-7 flex flex-col gap-2  ">
+
+                <div className='flex gap-1 '>
+                   <input onChange={(e)=>{handleSearch(e)}} value={searchRes} placeholder='Find Restaurants'  className=' placeholder:text-center  border-2 px-2 rounded-l-full rounded-r-full ' />
+                   <button onClick={()=>{
+                    const searchItems = rData.filter((res)=>(res.info.name.toLowerCase().includes(searchRes.toLowerCase())))
+                    setFilterList(searchItems);
+                   }}  className='border-2 border-orange-600 px-2  font-normal rounded-l-full rounded-r-full  focus:bg-orange-600 focus:text-white  '>Search</button>
+
+                </div>
+            
+
+                <button className=' hover:bg-white hover:text-black hover:border  rounded-l-full rounded-r-full   inline-flex items-center justify-center h-8 px-4 font-medium tracking-wide text-white transition duration-200 bg-gray-900 rounded-lg  focus:shadow-outline focus:outline-none ' 
                 onClick={()=>{
                  const highRatedRes = rData.filter((res)=>res.info.avgRating > 4.3);
                  setRData(highRatedRes);
@@ -63,11 +109,11 @@ const Rescard = (props) =>{
 
           <div className="flex flex-wrap ">
             {
-                rData.map((restaurant)=>(
+                filterList.map((restaurant)=>(
                     <Rescard key={restaurant.info.id} resdata={restaurant} />
                 ))
             }
-        </div>  
+          </div>  
 
         </div>
     )
