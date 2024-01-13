@@ -1,0 +1,10 @@
+useEffect - 
+
+1- Without Dependency Array
+Every time the component renders, useEffect will be called.
+
+2- With Empty Dependency Array
+useEffect will be called only at initial render
+
+3- With Dependency
+useEffect will be called when the dependency changes

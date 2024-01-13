@@ -1,10 +1,7 @@
 
 import { useEffect, useState } from 'react';
-import res_data from '../../data/res-data'
 import ShimmerBody from './Shimmer'
-
-
-
+import {Link} from 'react-router-dom';
 
 const Rescard = (props) =>{
     const { resdata } = props;
@@ -43,9 +40,6 @@ const Rescard = (props) =>{
     )
 }
 
-
-
-
  const Body = () =>{
   
 
@@ -60,22 +54,25 @@ const Rescard = (props) =>{
         const data = await fetch('https://www.swiggy.com/dapi/restaurants/list/v5?lat=27.2380555&lng=78.0077208&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING');
         
         const json = await data.json();
-        console.log(json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants)
  
         setRData(json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
         setFilterList(json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+        
     }
     
     if (rData.length===0){
-        return ( 
+        return (    
             <ShimmerBody />
         )
     }
 
     if (filterList.length===0){
         return (
-            <div className='flex w-full h-[500px] justify-center items-center  '>
+            <div className='flex w-full h-[500px] justify-center items-center gap-2 flex-col   '>
                 <h2>No Restaurants...</h2>
+                <button type="button" className='rounded-l-full rounded-r-full  px-2  bg-orange-500 text-white ' onClick={()=>{document.location.reload()}}>
+                 Go back
+                 </button>
             </div>
         )
     }
@@ -103,14 +100,16 @@ const Rescard = (props) =>{
                 <button className=' hover:bg-white hover:text-black hover:border  rounded-l-full rounded-r-full   inline-flex items-center justify-center h-8 px-4 font-medium tracking-wide text-white transition duration-200 bg-gray-900 rounded-lg  focus:shadow-outline focus:outline-none ' 
                 onClick={()=>{
                  const highRatedRes = rData.filter((res)=>res.info.avgRating > 4.3);
-                 setRData(highRatedRes);
+                 setFilterList(highRatedRes);
                 }}>Top Rated Restaurant</button>
             </div>
 
           <div className="flex flex-wrap ">
             {
                 filterList.map((restaurant)=>(
-                    <Rescard key={restaurant.info.id} resdata={restaurant} />
+
+                    <Link to={`/restaurant/${restaurant?.info?.id}`} key={restaurant?.info?.id}  > <Rescard resdata={restaurant} /> </Link>
+                    
                 ))
             }
           </div>  
